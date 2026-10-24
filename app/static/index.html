@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Manager</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="layout">
+
+  <!-- Left menu -->
+  <aside class="sidebar">
+    <div class="brand">🎓 Student<br>Manager</div>
+    <nav>
+      <button class="nav-btn active" data-page="dashboard">🏠 Dashboard</button>
+      <button class="nav-btn" data-page="students">👩‍🎓 Students</button>
+      <button class="nav-btn" data-page="ask">🤖 Ask AI</button>
+    </nav>
+  </aside>
+
+  <main class="content">
+
+    <!-- DASHBOARD -->
+    <section id="page-dashboard" class="page">
+      <div class="page-head">
+        <h1>Dashboard</h1>
+        <button class="btn primary" id="quickAdd">+ Add Student</button>
+      </div>
+
+      <div class="cards" id="stats"></div>
+
+      <div class="two-col">
+        <div class="panel">
+          <h2>Students per course</h2>
+          <div id="courseBars"></div>
+        </div>
+        <div class="panel">
+          <h2>Recently added</h2>
+          <ul class="recent" id="recentList"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- STUDENTS -->
+    <section id="page-students" class="page hidden">
+      <div class="page-head">
+        <h1>Students <span class="muted small" id="count"></span></h1>
+        <button class="btn primary" id="addBtn">+ Add Student</button>
+      </div>
+
+      <div class="toolbar">
+        <input type="search" id="search" placeholder="🔍 Search by name or email">
+        <select id="courseFilter"><option value="">All courses</option></select>
+      </div>
+
+      <div class="panel table-wrap">
+        <table>
+          <thead>
+            <tr><th>Name</th><th>Course</th><th>Date of birth</th><th>Contact</th><th class="right">Actions</th></tr>
+          </thead>
+          <tbody id="studentsBody"></tbody>
+        </table>
+        <div id="emptyState" class="empty hidden">No students found.</div>
+      </div>
+    </section>
+
+    <!-- ASK AI -->
+    <section id="page-ask" class="page hidden">
+      <div class="page-head"><h1>Ask AI</h1></div>
+      <div class="panel">
+        <p class="muted">Ask a question about your students in plain English. (Needs Ollama running on this computer.)</p>
+        <div class="ask-row">
+          <input type="text" id="question" placeholder="e.g. How many students are there?">
+          <button class="btn primary" id="askBtn">Ask</button>
+        </div>
+        <div class="chips">
+          <button class="chip">How many students are there?</button>
+          <button class="chip">List students born after 2005</button>
+        </div>
+        <div id="answer" class="answer hidden"></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Add / Edit popup -->
+<dialog id="studentDialog">
+  <form id="studentForm">
+    <h2 id="dialogTitle">Add Student</h2>
+    <input type="hidden" id="studentId">
+
+    <div class="grid">
+      <label>Full name *
+        <input type="text" id="name" required maxlength="100">
+      </label>
+      <label>Date of birth *
+        <input type="date" id="dob" required>
+      </label>
+      <label>Email
+        <input type="email" id="email">
+      </label>
+      <label>Phone
+        <input type="text" id="phone" placeholder="e.g. 9876543210">
+      </label>
+      <label>Course
+        <input type="text" id="course" list="courseList" placeholder="e.g. B.Tech AIML">
+        <datalist id="courseList"></datalist>
+      </label>
+      <label>Enrollment date
+        <input type="date" id="enrolled">
+      </label>
+    </div>
+    <label>Address
+      <input type="text" id="address" maxlength="255">
+    </label>
+    <p class="muted small">* Required. Please give at least one of Email or Phone.</p>
+
+    <div id="formError" class="form-error hidden"></div>
+
+    <div class="dialog-actions">
+      <button type="button" class="btn" id="cancelBtn">Cancel</button>
+      <button type="submit" class="btn primary">Save</button>
+    </div>
+  </form>
+</dialog>
+
+<div id="toast"></div>
+<script src="/static/app.js"></script>
+</body>
+</html>
